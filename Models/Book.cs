@@ -18,5 +18,7 @@ namespace Ciocmarean_Cristian_Laborator2.Models
         public int? AuthorID { get; set; }
 
         public Authors? Authors { get; set; }
+        public ICollection<BookCategory>? BookCategories { get; set; }
+
     }
 }
