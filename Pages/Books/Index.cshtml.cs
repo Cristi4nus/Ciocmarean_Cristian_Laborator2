@@ -29,7 +29,7 @@ namespace Ciocmarean_Cristian_Laborator2.Pages.Books
 
             //se va include Author conform cu sarcina de la lab 2
             BookD.Books = await _context.Book
-            .Include(b => b.Publisher).Include(b => b.Authors).Include(b => b.BookCategories)
+            .Include(b => b.Publisher).Include(b => b.Author).Include(b => b.BookCategories)
             .Include(b => b.BookCategories)
             .ThenInclude(b => b.Category)
             .AsNoTracking()

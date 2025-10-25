@@ -31,7 +31,7 @@ namespace Ciocmarean_Cristian_Laborator2.Pages.Books
                 return NotFound();
             }
             Book = await _context.Book
-             .Include(b => b.Publisher).Include(b =>b.Authors).Include(b => b.BookCategories)
+             .Include(b => b.Publisher).Include(b =>b.Author).Include(b => b.BookCategories)
              .Include(b => b.BookCategories).ThenInclude(b => b.Category)
              .AsNoTracking()
              .FirstOrDefaultAsync(m => m.ID == id);
@@ -61,7 +61,7 @@ PopulateAssignedCategoryData(_context, Book);
                     return NotFound();
                 }
                 var bookToUpdate = await _context.Book
-                .Include(i => i.Publisher).Include(i =>i.Authors)
+                .Include(i => i.Publisher).Include(i =>i.Author)
                 .Include(i => i.BookCategories)
                 .ThenInclude(i => i.Category)
                 .FirstOrDefaultAsync(s => s.ID == id);
@@ -72,7 +72,7 @@ PopulateAssignedCategoryData(_context, Book);
                 if (await TryUpdateModelAsync<Book>(
                 bookToUpdate,
                 "Book",
-                i => i.Title, i => i.Authors,
+                i => i.Title, i => i.Author,
                 i => i.Price, i => i.PublishingDate, i => i.PublisherID))
                 {
                     UpdateBookCategories(_context, selectedCategories, bookToUpdate);
