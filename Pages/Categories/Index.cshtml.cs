@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Ciocmarean_Cristian_Laborator2.Data;
 using Ciocmarean_Cristian_Laborator2.Models;
+using Ciocmarean_Cristian_Laborator2.Models.ViewModels;
 
 namespace Ciocmarean_Cristian_Laborator2.Pages.Categories
 {
@@ -20,10 +21,41 @@ namespace Ciocmarean_Cristian_Laborator2.Pages.Categories
         }
 
         public IList<Category> Category { get;set; } = default!;
+        public CategoryIndexData CategoryData { get; set; }
+        public int CategoryID { get; set; }
+        public int BookID { get; set; }
 
-        public async Task OnGetAsync()
+        public async Task OnGetAsync(int? id, int? bookID)
         {
-            Category = await _context.Category.ToListAsync();
+            CategoryData = new CategoryIndexData();
+
+            CategoryData.Categories = await _context.Category
+                .Include(c => c.BookCategories)
+                    .ThenInclude(bc => bc.Book)
+                        .ThenInclude(b => b.Author)
+                .OrderBy(c => c.CategoryName)
+                .ToListAsync();
+
+            if (id != null)
+            {
+                CategoryID = id.Value;
+
+                var category = CategoryData.Categories
+                    .SingleOrDefault(c => c.ID == id.Value);
+
+                if (category != null)
+                {
+                    CategoryData.Books = category.BookCategories
+                        .Select(bc => bc.Book)
+                        .ToList();
+                }
+            }
+
+            if (bookID != null)
+            {
+                BookID = bookID.Value;
+            }
         }
+
     }
 }
