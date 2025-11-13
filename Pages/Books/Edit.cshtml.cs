@@ -1,5 +1,6 @@
 ﻿using Ciocmarean_Cristian_Laborator2.Data;
 using Ciocmarean_Cristian_Laborator2.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -12,6 +13,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace Ciocmarean_Cristian_Laborator2.Pages.Books
 {
+    [Authorize(Roles = "Admin")]
     public class EditModel : BookCategoriesPageModel
     {
         private readonly Ciocmarean_Cristian_Laborator2.Data.Ciocmarean_Cristian_Laborator2Context _context;
